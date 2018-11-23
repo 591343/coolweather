@@ -5,6 +5,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by LENOVO on 2018/11/17.
  * 市数据表
+ * DataSupport类为了实现LitePal数据库的CRUD操作的
  */
 
 public class City extends DataSupport {
