@@ -1,6 +1,7 @@
 package com.example.lenovo.coolweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -126,6 +127,13 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else if(currentLevel==LEVEL_COUNTY){//将当前选中的天气id传到WeatherActivity中
+                    String weatherId=countyList.get(position).getWeatherId();
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);//创建Intent实例
+                    intent.putExtra("weather_id",weatherId);//要传递的数据
+                    startActivity(intent);//开始活动
+                    getActivity().finish();//结束当前活动
+
                 }
             }
         });

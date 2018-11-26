@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.example.lenovo.coolweather.db.City;
 import com.example.lenovo.coolweather.db.County;
 import com.example.lenovo.coolweather.db.Province;
+import com.example.lenovo.coolweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +58,6 @@ public class Utility {
                     city.setCityCode(cityObject.getInt("id")); //设置市的代号
                     city.setProvinceId(provinceId); //设置该市所属省的代号
                     city.save();//将数据存到数据库中
-
                 }
                 return  true;
             }catch (JSONException e){
@@ -86,6 +87,22 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     */
+
+    public static Weather handleWeatherRespone(String respone){
+        try {
+            JSONObject jsonObject=new JSONObject(respone);//用从服务器上返回的数据创建JSON实例
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");//创建HeWeather数组
+            String weatherContent=jsonArray.getJSONObject(0).toString();//获取HeWeather数组中第一个元素也就是天气预报的内容
+            return new Gson().fromJson(weatherContent,Weather.class);//进行解析
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
