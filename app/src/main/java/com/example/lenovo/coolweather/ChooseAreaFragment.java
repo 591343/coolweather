@@ -127,16 +127,23 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
-                }else if(currentLevel==LEVEL_COUNTY){//将当前选中的天气id传到WeatherActivity中
-                    String weatherId=countyList.get(position).getWeatherId();
-                    Intent intent=new Intent(getActivity(),WeatherActivity.class);//创建Intent实例
-                    intent.putExtra("weather_id",weatherId);//要传递的数据
-                    startActivity(intent);//开始活动
-                    getActivity().finish();//结束当前活动
-
+                } else if (currentLevel == LEVEL_COUNTY) {//将当前选中的天气id传到WeatherActivity中
+                    String weatherId = countyList.get(position).getWeatherId();
+                    if (getActivity() instanceof MainActivity) {//使用instanceof关键字判断出该碎片是在那个活动中
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);//创建Intent实例
+                        intent.putExtra("weather_id", weatherId);//要传递的数据
+                        startActivity(intent);//开始活动
+                        getActivity().finish();//结束当前活动
+                    } else if (getActivity() instanceof WeatherActivity) {
+                        WeatherActivity activity = (WeatherActivity) getActivity();//活动该活动实例
+                        activity.drawerLayout.closeDrawers();//关闭滑动菜单
+                        activity.swipeRefreshLayout.setRefreshing(true);//显示下拉刷新进度条
+                        activity.requestWeather(weatherId);//请求新城市的天气信息
+                    }
                 }
             }
         });
+
         backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
