@@ -1,5 +1,6 @@
 package com.example.lenovo.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.lenovo.coolweather.gson.Forecast;
 import com.example.lenovo.coolweather.gson.Weather;
+import com.example.lenovo.coolweather.service.AutoUpdateService;
 import com.example.lenovo.coolweather.util.HttpUtil;
 import com.example.lenovo.coolweather.util.Utility;
 
@@ -228,6 +230,8 @@ public class WeatherActivity extends AppCompatActivity {
         carWash.setText(carwash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);//所有数据布置成功，显示ScrollView
+        Intent intent=new Intent(this, AutoUpdateService.class);//启动服务
+        startService(intent);
     }
 
     /**
